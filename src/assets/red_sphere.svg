@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 451.36407 596.68323" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <linearGradient id="c" x1="154.29" x2="605.71" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#770900" offset="0"/>
+   <stop stop-color="#da101b" offset=".5"/>
+   <stop stop-color="#d2400f" offset=".75"/>
+   <stop stop-color="#d44316" stop-opacity=".61458" offset=".9375"/>
+   <stop stop-color="#c30000" stop-opacity=".21875" offset="1"/>
+  </linearGradient>
+  <radialGradient id="b" cx="102.14" cy="545.93" r="135" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#999" offset="0"/>
+   <stop stop-color="#999" stop-opacity="0" offset="1"/>
+  </radialGradient>
+  <radialGradient id="a" cx="102.14" cy="545.93" r="135" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#fff" offset="0"/>
+   <stop stop-color="#fff" stop-opacity="0" offset="1"/>
+  </radialGradient>
+ </defs>
+ <path transform="matrix(1.4557 -.47633 .6458 1.0737 -270.65 -99.441)" d="m237.14 545.93a135 135 0 1 1 -270 0 135 135 0 1 1 270 0z" fill="url(#b)"/>
+ <path transform="matrix(-.67295 -.73969 .73969 -.67295 85.507 866.94)" d="m605.71 535.22a225.71 225.71 0 1 1 -451.43 0 225.71 225.71 0 1 1 451.43 0z" fill="url(#c)"/>
+ <path transform="translate(68.539 -383.82)" d="m237.14 545.93a135 135 0 1 1 -270 0 135 135 0 1 1 270 0z" fill="url(#a)" opacity=".87615"/>
+</svg>
