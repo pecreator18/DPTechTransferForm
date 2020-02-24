@@ -1,6 +1,9 @@
 .DS_Store
 node_modules
 .vs
+public
+src
+vue.config.js
 #/dist
 
 # local env files
