@@ -4,7 +4,8 @@ const path = require('path')
 
 const app = express()
 
-app.use('/', serveStatic(path.join(__dirname, '/dist')))
+//app.use('/', serveStatic(path.join(__dirname, '/dist')))
+app.use(express.static(__dirname + "/dist"));
 
 if(process.env.NODE_ENV === 'production'){
 
