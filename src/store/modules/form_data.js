@@ -12,11 +12,7 @@ const state = {
                     {
                         username:"Andre Chavez",
                         password: "123456"
-                    },
-                    {
-                      username:"Josefa De Leon",
-                      password: "OEAnalyst"
-                    },
+                    }
                 ],
                 authenticated: false,
 
