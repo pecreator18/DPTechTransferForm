@@ -2,7 +2,6 @@
 node_modules
 .vs
 public
-src
 vue.config.js
 #/dist
 
