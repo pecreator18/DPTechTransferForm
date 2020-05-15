@@ -64,7 +64,7 @@
                 v-model= "getFormulationInfo.equipment_purchase"
                 v-if = "getFormulationInfo.special_equipment_required == 'Yes' "
                 >
-                </v-select>
+              </v-select>
           </v-col>
           <v-col>
               <v-select
@@ -284,7 +284,7 @@
               label = "Concentration Range Upper Limit"
                v-model= "getFormulationInfo.upper_concentration_limit"
               type = "number">
-            </v-text-field>
+              </v-text-field>
           </v-col>
       </v-row>
   </div>

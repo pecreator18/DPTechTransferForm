@@ -10,6 +10,7 @@
     label = "Cap Coding Required(Vials Only)?"
     :items = yes_no
     v-model = getAutoPack.cap_coding
+    v-if = "getState.fill_specifications.fill_type == 'Vial'"
     ></v-select>
     </v-col>
     <v-col>
@@ -17,6 +18,7 @@
         label = "Opaque White Unit Label Acceptable(Only applicable for vials)?"
         :items = yes_no
         v-model = getAutoPack.opaque_label
+        v-if = "getState.fill_specifications.fill_type == 'Vial'"
     ></v-select>
     </v-col>
     </v-row>
@@ -126,7 +128,7 @@ import { mapGetters } from 'vuex'
 export default {
 
     name: "Automated Labeling and Packaging",
-    computed: mapGetters(['getAutoPack']),
+    computed: mapGetters(['getAutoPack', 'getState']),
     
     components: {
     

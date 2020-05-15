@@ -15,7 +15,6 @@
               <v-tab-item>
                 <Molecule_Info/>
               </v-tab-item>
-
           </v-tabs-items>
       </v-container>
   </div>
@@ -29,7 +28,7 @@ export default {
     name: "Program and Client Info",
     components: {
     Client_Info,
-    Molecule_Info
+    Molecule_Info,
   },
 
   data(){

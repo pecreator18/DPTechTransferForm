@@ -1,23 +1,24 @@
 //import axios from 'axios'; //Uncomment this when you get it connnected to the mongoDB back-end
-
 const state = {
+    //Can Delete this once the user authentication is employed through Office 365 Dynamics 365. 
     authentication_data:{
               client_portal_form: false,
-                client_portal_questionaire: false,  
-                user_name:"",
-                password:"",
-                error:false,
-                error_list:[],
-                credentials:[
+              client_portal_questionaire: true,  
+              user_name:"",
+              password:"",
+              error:false,
+              error_list:[],
+              credentials:[
                     {
-                        username:"Andre Chavez",
-                        password: "123456"
+                        username:"Test",
+                        password: "Test123"
                     }
                 ],
-                authenticated: false,
+              authenticated: false,
 
     },
-
+    //Table for client contact information.
+    client_team_information: {
     client_info: [
       { 
         title:"Project Manager", 
@@ -41,13 +42,6 @@ const state = {
         email:""
       },
       { 
-        title:"Compliance/Quality Representative", 
-        first_name:"",
-        last_name: "",
-        phone_number:"",
-        email:""
-      },
-      { 
         title:"Material/Supply Chain Representative", 
         first_name:"",
         last_name: "",
@@ -61,9 +55,20 @@ const state = {
         phone_number:"",
         email:""
       },
+      { 
+        title:"Compliance/Quality Representative", 
+        first_name:"",
+        last_name: "",
+        phone_number:"",
+        email:""
+      },
+      
+      
     ],
-   
-    molecule_info:{
+    added_members: [],
+  },
+  //Information pertaining to drug product molecule.
+  molecule_info:{
         Drug_Name:"",
         Disease_Indication: "",
         Development_Phase: null,
@@ -72,9 +77,11 @@ const state = {
         Product_Type: "",
         Other_Product_Type: ""},
     
-        Service: {service: ""}	,
+    Service: {service: ""},
   
+  //CSM info this has the shipping and formulation specs on incoming csm.  This needs to be dynamic to accommodate more than one CSM. 
   csm_info: {
+
     material_name: "",
     material_synonyms: "",
     manufacturer:"",
@@ -95,6 +102,8 @@ const state = {
     container_type: "",
     
   },
+
+//Original Formulation information if we go with the formulation builder model this will change. 
   formulation_information:{
     formulation_instructions: {instructions: "", nitrogen_sparge: false},
     target_pH: 0,
@@ -122,6 +131,7 @@ const state = {
     lower_concentration_limit: 0,
     upper_concentration_limit: 0
     },
+  //Safety information. 
   api_bds_safety_info: {
     available_reports: [],
     safety_characteristics: [],
@@ -178,6 +188,7 @@ const state = {
 
     }
   },
+  //Information on filtrations used in 
   filtration_info:{
     bioburden_required: "",
     bioburden_filtrations:[],
@@ -186,8 +197,10 @@ const state = {
     intermediate_storage_conditions: "",
     intermediate_storage_time: ""
 },
+//Information on the lyophilization. 
 lyo_info:{
   lyophilization: 'No',
+  vendor_list: "No",
   instructions: "",
   freeze_temperature: 0,
   condenser_temperature: 0,
@@ -195,17 +208,39 @@ lyo_info:{
   vacuum_pressure: 0
 
 },
+//Terminal Sterilization information. 
 terminal_sterilization_info: {
-  required: "No",
+  required: "Yes",
+  //Feasibility material aseptically filled
   aseptically_filled: "Yes",
-  feasibility_material_available: "Yes",
+  feasibility_material_available: "No",
   date_material_available:"",
-  text_exposure: "",
   stability_outcomes: "",
   exposure_outcomes: "",
-  target_sterilization_time: "",
-  target_sterilization_temperature: "",
+  text_exposure_samples: {
+    description: "Text Exposure Samples",
+    target: 0,
+    upper_limit: 0,
+    lower_limit: 0,
+    units: "ea." 
 },
+  sterilization_time: {
+    description: "Terminal Sterilization Time",
+    target: 0,
+    upper_limit: 0,
+    lower_limit: 0,
+    units: "min" 
+},
+  sterilization_temperature:  {
+    description: "Terminal Sterilization Temperature",
+    target: 0,
+    upper_limit: 0,
+    lower_limit: 0,
+    units: "C" 
+}
+},
+
+//Simple inspection information. 
 inspection_info: {
   inspection_temperature: "",
   tor: "",
@@ -213,7 +248,13 @@ inspection_info: {
   appearance_description: ""
 
 },
+
+//This is fill information
 production_components: {
+  selected_fp_state:"",
+  selected_fill_sterility:"",
+  number_of_fills: 0,
+  batch_size: 0,
   //Container Row 
   container: "",
   container_size: "",
@@ -238,16 +279,15 @@ production_components: {
   //Normal Components
   components:
   [
-  {component: "Stopper", size: "", description: "", manufacturer: "", manufacturer_pn: "", quantity_required: ""},
-  {component: "Sterilizing Filter", size: "", description: "", manufacturer: "", manufacturer_pn: "", quantity_required: ""},
-  {component: "Bag", size: "", description: "", manufacturer: "", manufacturer_pn: "", quantity_required: ""},
+    {component: "Stopper", size: "", description: "", manufacturer: "", manufacturer_pn: "", quantity_required: ""},
+    {component: "Sterilizing Filter", size: "", description: "", manufacturer: "", manufacturer_pn: "", quantity_required: ""},
+    {component: "Bag", size: "", description: "", manufacturer: "", manufacturer_pn: "", quantity_required: ""},
   ],
   other_components: []
 },
-excipients:{
-                        
-  excipients:[]
-  
+excipients:{                     
+  excipients:[],
+  formulation_excipients:[]
   },
   auto_label_pack: {
     cap_coding_required: "",
@@ -267,11 +307,8 @@ excipients:{
     other_shipping_method: ""
 },
 commercial_packaging_components: {
-
   components:[
-      {component: "Plunger Rod", size: "", description: "", manufacturer: "", manufacturer_pn: "", quantity_required: ""},
-      {component: "Backstop", size: "", description: "", manufacturer: "", manufacturer_pn: "", quantity_required: ""},
-      {component: "Needle", size: "", description: "", manufacturer: "", manufacturer_pn: "", quantity_required: ""},
+      //These removed components are for Syringe line components and don't belong in the packaging section.
       {component: "Carton", size: "", description: "", manufacturer: "", manufacturer_pn: "", quantity_required: ""},
       {component: "Product Insert", size: "", description: "", manufacturer: "", manufacturer_pn: "", quantity_required: ""},
       {component: "Instruction for Use", size: "", description: "", manufacturer: "", manufacturer_pn: "", quantity_required: ""},
@@ -281,11 +318,13 @@ commercial_packaging_components: {
   ],
   other_components:[],
 },
+//Simple commercial serialization information.
 commercial_serialization_info: {
   additional_information: "",
   serialization_levels: [],
   serial_number_provider: ""
 },
+//Quality and Compliance validation requirements.
 process_validation_data:{
   validations: [
       {method_name: "Vendor Qualification", 
@@ -324,7 +363,17 @@ process_validation_data:{
        comments:""}
   ]      
   },
+
+
   critical_process_parameters: {
+    /*{
+      description: "",
+      target: "",
+      upper_limit: "",
+      lower_limit: "",
+      units: ""
+       }*/
+    formulation_cpps: [],
     cpps: [
         {
         process: "",
@@ -334,15 +383,20 @@ process_validation_data:{
         lower_limit: "",
         units: ""
          }
-    ]
+    ],
+    fill_cpps: []
 },
+
 samples_and_testing:{
 
-  sampling_plan: []
+  sampling_plan: [],
+  formulation_sampling_plan: []
 
 
 },
+
 stability_sampling_plan: {
+  stability_sampling: "",
 
   stability_sample_modules: [
       {
@@ -353,6 +407,7 @@ stability_sampling_plan: {
       }
           ]
 },
+
 freeze_thaw_stability: {
 
   freeze_temperature: "",
@@ -362,12 +417,41 @@ freeze_thaw_stability: {
   comments:"",
   freeze_thaw_assays: []
 
-}  
+},
+formulation:[],
+formulation_waste_streams: [],
+fill_specifications: 
+    {
+      fill_type: "",
+      additional_fill_process: "",
+      selected_fp_state:"",
+      selected_fp_state_disabled: false,//disable input depending on fill type selected.
+      selected_fill_sterility:"",
+      selected_fill_sterility_disabled: false,//disable input depending on fill type selected.
+      number_of_fills: 0,
+      batch_size: 0,
+      fill_cpps: [{}],
+      vial_fill_components: 
+      [
+        {component: "Vial", size: "", description: "", manufacturer: "", manufacturer_pn: "", quantity_required: ""},
+        {component: "Stopper", size: "", description: "", manufacturer: "", manufacturer_pn: "", quantity_required: ""},
+        {component: "Seal", size: "", description: "", manufacturer: "", manufacturer_pn: "", quantity_required: ""}
+      ],
+      syringe_fill_components: 
+      [
+        {component: "Syringe", size: "", description: "", manufacturer: "", manufacturer_pn: "", quantity_required: ""},
+        {component: "Plunger Rod", size: "", description: "", manufacturer: "", manufacturer_pn: "", quantity_required: ""},
+        {component: "Backstop", size: "", description: "", manufacturer: "", manufacturer_pn: "", quantity_required: ""},
+        {component: "Needle", size: "", description: "", manufacturer: "", manufacturer_pn: "", quantity_required: ""},
+        {component: "Stopper", size: "", description: "", manufacturer: "", manufacturer_pn: "", quantity_required: ""},
+      ],
+      cartridge_fill_components: []
+    }
 };
 
 const getters = {
     getState: (state) => state,
-    getClientInfo: (state) => state.client_info,
+    getClientInfo: (state) => state.client_team_information,
     getMoleculeData: (state) => state.molecule_info,
     getServices: (state) => state.Service,
     getCSMInfo: (state) => state.csm_info,

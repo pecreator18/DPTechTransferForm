@@ -67,7 +67,7 @@
                 </v-col>
                 
                 <v-col>
-                    <v-btn small color = "error" v-on:click = "remove_component(getCPPs.cpps.indexOf(row))"> 
+                    <v-btn small color = "error" v-on:click = "remove_component(getCPPs.cpps.indexOf(cpp))"> 
                     Remove
                     </v-btn>
                 </v-col>

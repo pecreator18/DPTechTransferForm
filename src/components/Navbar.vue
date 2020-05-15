@@ -10,13 +10,13 @@
           transition="scale-transition"
           width="200"
         />
-      <v-toolbar-title >Drug Product Manufacturing Tech Transfer</v-toolbar-title>
+      <!--<v-toolbar-title class="pagetitle">Drug Product Manufacturing Tech Transfer</v-toolbar-title>-->
   
       <v-spacer></v-spacer>
-      <v-btn depressed @click = "product_page()">
+      <!--<v-btn depressed @click = "product_page()">
           <span>Product Page</span>
           <v-icon right>mdi-arrow-left-bold-outline</v-icon>
-      </v-btn>
+      </v-btn>-->
       <v-btn depressed @click = "sign_out">
           <span>Sign Out</span>
           <v-icon right>mdi-exit-to-app</v-icon>
@@ -60,6 +60,15 @@
               <v-list-item-content>
                 <v-list-item-title>{{ item.title }}</v-list-item-title>
               </v-list-item-content>
+              <!--Status Bar<v-progress-circular 
+              :value = item.completion
+              size = 30
+              width = 3
+              rotate = 0
+              color = "light-blue"
+              style = "font-size: 0.8em;"
+
+              >{{item.completion}}</v-progress-circular>-->
             </v-list-item>
           </v-list>
         </v-navigation-drawer>
@@ -77,12 +86,12 @@ computed: mapGetters(['getAuthenticationData']),
         items: [
         //{ title: 'Process Overview', icon: 'mdi-view-dashboard' },
         { title: 'Home', icon: 'mdi-home-outline' },
-        { title: 'Program Information', icon: 'mdi-folder-outline' },
-        { title: 'Manufacturing', icon: 'mdi-hexagon-multiple-outline' },
-        { title: 'Logistics', icon: 'mdi-truck-outline' },
-        { title: 'Health and Safety', icon: 'mdi-hospital-box-outline' },
-        { title: 'Quality Control Testing', icon: 'mdi-flask' },
-        { title: 'Document Uploads', icon: 'mdi-file-document-box-plus-outline' }
+        { title: 'Program Information', icon: 'mdi-folder-outline'},
+        { title: 'Manufacturing', icon: 'mdi-hexagon-multiple-outline'},
+        { title: 'Quality Control Testing', icon: 'mdi-flask'},
+        { title: 'Logistics', icon: 'mdi-truck-outline'},
+        { title: 'Health and Safety', icon: 'mdi-hospital-box-outline'},
+        { title: 'Quality/Compliance', icon: 'mdi-shield-account'},
       ],
   }),
   methods:{
@@ -95,12 +104,22 @@ computed: mapGetters(['getAuthenticationData']),
         this.getAuthenticationData.client_portal_form = false;
         this.getAuthenticationData.client_portal_questionaire = false;
       },
+      /*
       product_page(){
         this.getAuthenticationData.client_portal_form = false;
         this.getAuthenticationData.client_portal_questionaire = false;
-      }
+      }*/
 
   }
 
 }
 </script>
+<style scoped>
+.pagetitle{
+font-family: 'Arial'; 
+font-weight: bold; 
+font-size: 1.6vw;
+}
+
+
+</style>

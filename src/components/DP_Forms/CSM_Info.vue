@@ -16,7 +16,7 @@
                 v-model = "getCSMInfo.material_synonyms"
                 >
                 </v-text-field>
-          </v-col>
+            </v-col>
           </v-row>
           <v-row>
                 <v-col>
@@ -56,6 +56,7 @@
             <v-col><v-text-field
           label="Total API/BDS Quantity per Batch"
           v-model = "getCSMInfo.total_batch_quantity"
+          disabled
           >
           </v-text-field>
           </v-col>
@@ -63,13 +64,15 @@
           :items = units
           label = "BDS Unit of Measure"
           v-model= "getCSMInfo.bds_uom"
+          disabled
           >
           </v-select>
           </v-col>
             <v-col>
               <v-text-field 
               label = "Concentration"
-              v-model = "getCSMInfo.concentration">
+              v-model = "getCSMInfo.concentration"
+              disabled>
             </v-text-field>
           </v-col>
           </v-row>
@@ -77,6 +80,7 @@
             <v-col><v-text-field
           label="Appearence"
           v-model = "getCSMInfo.appearance"
+          disabled
           >
           </v-text-field>
           </v-col>
@@ -85,17 +89,20 @@
           :items = physical_state
           label = "Physical State"
           v-model= "getCSMInfo.physical_state"
+          disabled
           >  </v-select>
           <v-text-field 
               label = "Other State"
               v-model = "getCSMInfo.other_state"
-              v-if= "getCSMInfo.physical_state == 'Other'">
+              v-if= "getCSMInfo.physical_state == 'Other'"
+              disabled>
               </v-text-field>
           </v-col>
             <v-col>
               <v-text-field 
               label = "Density"
-              v-model = "getCSMInfo.density">
+              v-model = "getCSMInfo.density"
+              disabled>
               </v-text-field>
           </v-col>
           </v-row>
@@ -103,26 +110,32 @@
             <v-col><v-text-field 
               label = "Number of Storage Containers"
               type = "number"
-              v-model = "getCSMInfo.number_of_storage_containers">
+              v-model = "getCSMInfo.number_of_storage_containers"
+              disabled>
           </v-text-field></v-col>
             <v-col><v-text-field 
               label = "Container Type"
-              v-model = "getCSMInfo.container_type">
+              v-model = "getCSMInfo.container_type"
+              disabled>
           </v-text-field></v-col>
             <v-col><v-text-field 
               label = "Storage Condition"
-              v-model = "getCSMInfo.storage_condition">
+              v-model = "getCSMInfo.storage_condition"
+              disabled>
           </v-text-field></v-col>
           </v-row>
+          <!--
           <v-text-field 
               label = "Thaw Temperature"
-              v-model = "getCSMInfo.thaw_temperature">
+              v-model = "getCSMInfo.thaw_temperature"
+              disabled>
           </v-text-field>
           <v-text-field 
               label = "Thaw Duration"
-              v-model = "getCSMInfo.thaw_duration">
+              v-model = "getCSMInfo.thaw_duration"
+              disabled>
           </v-text-field>
-          
+          -->
       </div>
 </template>
 

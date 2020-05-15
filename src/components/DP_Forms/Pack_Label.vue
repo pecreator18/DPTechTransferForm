@@ -3,9 +3,10 @@
 
     <h2 >Packaging and Labeling</h2>
     <v-select
-    label = "Is Primary Unit(Vial or Syringe) Labeling Required?"
+    label = "Is Primary Unit(Vial,Syringe,Cartridge) Labeling Required?"
     :items = yes_no
     v-model = "pack_label_info.primary_unit_label"
+    
     >
     </v-select>
     <v-text-field
@@ -25,7 +26,7 @@ import { mapGetters } from 'vuex'
 export default {
 
     name: "Inspection",
-    computed: mapGetters(['getInspectionInfo']),
+    computed: mapGetters(['getInspectionInfo', 'getState']),
     
     components: {
     

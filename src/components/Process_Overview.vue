@@ -5,17 +5,35 @@
         Please Select A Service.
       </v-alert>
       <!--Navigation bar to navigate through the questions-->
-        <v-app-bar flat class = "red text-center">
+        <!--<v-app-bar flat class = "grey text-center">
             <v-btn v-if= "step_number >0" v-on:click="back()"> Back</v-btn>
-            <v-spacer class="white--text display-1">{{header[step_number]}}</v-spacer>
-            <v-btn v-if = "step_number < 5" v-on:click="next()"> Next</v-btn>
-            <v-btn v-else v-on:click="product_page()"> Finish Questionaire</v-btn>
-        </v-app-bar>
+            <v-spacer class="black--text display-1">{{header[step_number]}}</v-spacer>
+            <v-btn v-if = "step_number < 3 &  step_number > 0" v-on:click="next()"> Next</v-btn>
+            <v-btn v-if = "step_number == 3" v-on:click="finish_questionaire()"> Finish Questionaire</v-btn>
+        </v-app-bar>-->
           <br>
         <!--Container for conditional rendering by step number-->
+        
         <v-scale-transition>
-        <v-container v-if= "step_number == 0"> 
-        <v-row >
+        <v-container>
+        <v-row>
+        <v-col cols = 12>
+                <b><i>Process Overview:</i></b>
+                <p>
+                 Please fill out the following questionaire about the details of your manufacturing campaign. We will use this information to determine what information we will need to 
+                 get your process started. 
+                </p>
+            </v-col>
+        </v-row> 
+        <br>
+        <v-divider></v-divider>
+        <br>
+        <v-row>
+            <v-col>
+                <v-spacer class="black--text display-1">{{header[step_number]}}</v-spacer>
+            </v-col>
+        </v-row>
+        <v-row v-if= "step_number == 0">
                 <v-col 
                 cols = "4"
                 @click = "fill_selected('vial')">
@@ -58,6 +76,7 @@
             </v-row>
         </v-container>
         </v-scale-transition>
+
         <v-scale-transition>
         <!-- Keep the selected fill type symbol in the first column and render questions based on step in the other columns.-->
         <v-container v-if= "step_number > 0">
@@ -73,201 +92,105 @@
                 /> 
                 <h3>{{fill_type}}</h3>
             </v-col>
-            <!-- Fill Specifications -->
-            <v-col
-             cols = "10"
-             v-if= "step_number == 1">
+
+            <!-- Fill Information -->
+            <v-col 
+            cols = "10"
+            v-if= "step_number == 1">
+                
                 <v-row>
-                    <v-text-field 
-                    label = "Number of Batches"
-                    type = "number">
-                    </v-text-field>
-                </v-row>
-                <v-row>
-                    <v-text-field 
-                    label = "Target Batch Size(Units)"
-                    type = "number">
-                    </v-text-field>
+                    <v-col>
+                        <v-text-field 
+                        label = "Number of Batches"
+                        type = "number"
+                        v-model = "getState.fill_specifications.number_of_fills">
+                        </v-text-field>
+                    </v-col>
+                    <v-col>
+                        <v-text-field 
+                        label = "Target Batch Size(Units)"
+                        type = "number"
+                        v-model = "getState.fill_specifications.batch_size">
+                        </v-text-field>
+                    </v-col>
                 </v-row> 
                 <v-row>
                     <v-col>
                         <v-select 
                         label = "Final Product State"
                         :items = final_product_state
-                        v-model = selected_fp_state>
+                        :disabled = "getState.fill_specifications.selected_fp_state_disabled "
+                        v-model = "getState.fill_specifications.selected_fp_state"
+                        @change = "reset_fill_sterility()">
                         </v-select>
                     </v-col>
                     <v-col>
                         <v-select 
                         label = "Fill Sterility"
                         :items = fill_sterility
-                        v-model = selected_fill_sterility
-                        v-if = "selected_fp_state == 'Liquid'"
+                        v-if = "getState.fill_specifications.selected_fp_state == 'Liquid'"
+                        v-model = "getState.fill_specifications.selected_fill_sterility"
+                        :disabled = "getState.fill_specifications.selected_fill_sterility_disabled"
                         >
                         </v-select>
                     </v-col>
-                </v-row>    
+                </v-row> 
             </v-col>
-            <!-- Dosage -->
-            <v-col 
-            cols = "10"
-            v-if= "step_number == 2">
-                <v-row>
-                    <v-col cols="6">
-                        <br>
-                        <p><strong>Drug Product per Container(mg): </strong></p>
-                    </v-col>
-                    <v-col cols="2">
-                        <v-text-field 
-                        label = "Target"
-                        type = "number">
-                        </v-text-field>
-                    </v-col>
-                    <v-col cols="2">
-                        <v-text-field 
-                        label = "Lower Limit"
-                        type = "number">
-                        </v-text-field>
 
-                    </v-col>
-                    <v-col cols="2">
-                        <v-text-field 
-                        label = "Upper Limit"
-                        type = "number">
-                        </v-text-field>
-                    </v-col>
+            <!-- Fill Specifications -->
+            <v-col
+             cols = "10"
+             v-if= "step_number == 2">
+                <v-row>
+                    <v-text-field label = "Drug Name" v-model = "getMoleculeData.Drug_Name" ></v-text-field>
                 </v-row>
                 <v-row>
-                    <v-col cols="6">
-                        <br>
-                        <p><strong>Final Formulated Drug Product Concentration (mg/mL): </strong></p>
-                    </v-col>
-                    <v-col cols="2">
-                        <v-text-field 
-                        label = "Target"
-                        type = "number">
-                        </v-text-field>
-                    </v-col>
-                    <v-col cols="2">
-                        <v-text-field 
-                        label = "Lower Limit"
-                        type = "number">
-                        </v-text-field>
-
-                    </v-col>
-                    <v-col cols="2">
-                        <v-text-field 
-                        label = "Upper Limit"
-                        type = "number">
-                        </v-text-field>
-                    </v-col>
-                </v-row>    
+                    <v-select label = "Molecule Type" v-model = "getMoleculeData.Product_Type" :items = product_types></v-select>
+                </v-row>
+                <v-row>
+                    <v-text-field v-if = "getMoleculeData.Product_Type == 'Other'"   label = "Other Molecule Type"   v-model = "getMoleculeData.Other_Product_Type" ></v-text-field>
+                </v-row>
+                <v-row>
+                    <v-text-field label = "Disease Indication Ex. Alzheimers" v-model = "getMoleculeData.Disease_Indication"></v-text-field>
+                </v-row>
+                <v-row>
+                    <v-select label = "Development Phase" v-model = "getMoleculeData.Development_Phase" :items = development_phases></v-select>
+                </v-row>
+                <v-row>
+                    <v-select v-if = "getMoleculeData.Development_Phase != null && getMoleculeData.Development_Phase != 'PPQ/Commercial'" label = "Clinical Trial Location" v-model = "getMoleculeData.Trial_Location" :items = clinical_trial_locations></v-select>
+                </v-row>
+                <v-row>
+                    <v-text-field v-if = "getMoleculeData.Trial_Location == 'Other' && getMoleculeData.Development_Phase != null && getMoleculeData.Development_Phase != 'PPQ/Commercial'" label = "Other Clinical Trial Location" v-model = "getMoleculeData.Other_Location"></v-text-field>
+                </v-row>   
             </v-col>
-            <!-- Container Labeling -->
+            
+            
+            <!-- Stability Testing-->
             <v-col 
             cols = "10"
             v-if= "step_number == 3">
                 <v-row>
-                    <v-col>
+                    <v-col cols = 8>
                         <v-select
-                            label = "Is Primary Unit(Vial or Syringe) Labeling Required?"
+                            label = "Will Aji Bio-Pharma provide stability testing for your product?"
                             :items = yes_no
-                        ><!--v-model = "pack_label_info.primary_unit_label"-->
+                            v-model = "getState.stability_sampling_plan.stability_sampling"
+                        >
                         </v-select>
                     </v-col>
-                    <v-col>
-                        <v-select
-                            label = "Cap Coding Required(Vials Only)?"
-                            :items = yes_no
-                                
-                        > <!--v-model = getAutoPack.cap_coding--></v-select>
-                    </v-col>
-                </v-row>
-                <v-row>
-                    <v-col>
-                        <v-select
-                            label = "Opaque White Unit Label Acceptable(Only applicable for vials)?"
-                            :items = yes_no
-                            
-                        ><!--v-model = getAutoPack.opaque_label--></v-select>
-                    </v-col>
-                    <v-col>
-                        <v-select
-                            label = "Tamper Proof Seal Required?"
-                            :items = yes_no
-                        ><!--v-model = getAutoPack.tamper_proof-->
-                        </v-select>
-                    </v-col>
-                </v-row>
-
-                <v-row>
-                    <v-col
-                        v-if= "step_number == 3"
-                    >
-                        <v-textarea
-                            label = "Please Specify any Additional Packaging Requirements"
-                            filled
-                            outlined
-                            clearable
-                            auto-grow  
-                        ><!--v-model = "pack_label_info.additional_requirements"--></v-textarea>
-                        <p><strong>Note: </strong><i>Aji Bio-Pharma cannot support packaging for blinded studies or for randomization of a Drug Product Lot.</i></p>
-                    
-                    </v-col>    
-                </v-row>  
+               </v-row>  
             </v-col>
-            <!--Inspection-->
-            <v-col 
-            v-if ="step_number == 4"
-            cols = "10">
-                        <v-textarea
-                            label = "Please provide a product appearance descriptio for visual inspection"
-                            filled
-                            outlined
-                            clearable
-                            auto-grow  
-                        ><!--v-model = "pack_label_info.additional_requirements"--></v-textarea>
+        </v-row>
+        <!-- Navigation Buttons -->
+        <v-row>
+            <v-col cols = 2>
+                <v-btn color = "secondary" v-if= "step_number >0" v-on:click="back()"> Back</v-btn>
             </v-col>
-            <!--Packaging-->
-            <v-col 
-            v-if ="step_number == 5"
-            cols = "10">
-                        <v-row>
-                            <v-text-field 
-                            label = "Number of Units per Carton"
-                            type = "number">
-                            </v-text-field>
-                        </v-row>
-                        <v-row>
-                            <v-select
-                            label = "Pallet Configuration"
-                            :items = yes_no>
-                            </v-select>
-                        </v-row>
-
+            <v-col cols = 8>
             </v-col>
-            <!--Final Product Shipping-->
-            <v-col 
-            v-if ="step_number == 6"
-            cols = "10">
-                        <v-row>
-                            <v-select 
-                            label = "Clinical Trial Location"  
-                            :items = clinical_trial_locations
-                            v-model = clinical_trial_location
-                            ></v-select>
-                            <!--v-select 
-                            v-if = " getMoleculeData.Development_Phase != null && getMoleculeData.Development_Phase != 'PPQ/Commercial'" 
-                            label = "Clinical Trial Location" 
-                            v-model = "getMoleculeData.Trial_Location" 
-                            :items = clinical_trial_locations></v-select-->
-                            </v-row>
-                            <v-row>
-                            <v-text-field 
-                            v-if = "clinical_trial_location == 'Other'" 
-                            label = "Other Clinical Trial Location" ></v-text-field>
-                        </v-row>
-
+            <v-col cols = 2>
+                <v-btn color = "secondary" v-if = "step_number < 3 &  step_number > 0" v-on:click="next()"> Next</v-btn>
+                <v-btn color = "secondary" v-if = "step_number == 3" v-on:click="finish_questionaire()"> Finish Questionaire</v-btn>
             </v-col>
         </v-row>
         
@@ -292,16 +215,17 @@
         </v-row>-->
         </v-container>
         </v-scale-transition>
-        <v-btn depressed @click = "product_page()">
+        <!--<v-btn depressed @click = "product_page()">
           <span>Product Page</span>
           <v-icon right>mdi-arrow-left-bold-outline</v-icon>
-      </v-btn>
+      </v-btn>-->
     </div>
 
 </template>
 <script>
 import { mapGetters } from 'vuex'
-/*
+/*import Molecule_Info from './Basic_Info/Molecule_Info.vue'
+
 import CSM_Safety from "./DP_Forms/API_BDS_Safety_Info"
 import CSM_Info from "./DP_Forms/CSM_Info"
 import Formulation_Info from "./DP_Forms/Formulation_Info"
@@ -323,9 +247,10 @@ import Stability_Testing from "./DP_Forms/Stability_Testing.vue"
 
 export default {
     name: "DP_Info",
-    computed: mapGetters(['getAuthenticationData']),
+    computed: mapGetters(['getAuthenticationData','getMoleculeData','getComponents','getState']),
     components: {
         /*
+        Molecule_Info
         CSM_Safety,
         CSM_Info,
         Formulation_Info,
@@ -348,14 +273,23 @@ export default {
   data(){
 			return {
     
-        header: ["Select Your Fill Type","Fill Specifications","Drug Product Dosage","Container Labeling", "Inspection","Packaging","Finished Product Shipping Country"],
+        header: ["Select Your Fill Type","Fill Specifications","Molecule Information","Stability Testing","Drug Product Dosage","Container Labeling", "Inspection","Packaging","Finished Product Shipping Country"],
         error:false,
         step_number: 0,
         fill_type:"",
         selected_image_path: require("../assets/vial.svg"),
-        selected_fp_state:"",
-        selected_fill_sterility:"",
-        clinical_trial_locations: ["United States","EU","Japan","Canada","Other"],
+        development_phases: [ 'Pre-Clinical', 'Phase I', 'Phase II', 'Phase III', 'PPQ/Commercial'],
+                clinical_trial_locations: ["United States","EU","Japan","Canada","Other"],
+                product_types:["Monoclonal Antibody (mAb)","Monoclonal Antibody (mAb)","Recombinant Protein","Adjuvant","Plasmid DNA","Peptide","Vaccine","Small Molecule" ,"Oligonucleotide","Suspension","Other"],
+                molecule_info:{
+                                Drug_Name:"",
+                                Disease_Indication: "",
+                                Development_Phase: "",
+                                Trial_Location:"",
+                                Other_Location:"",
+                                Product_Type: "",
+                                Other_Product_Type: ""
+                              },
 
 
         //v-select items
@@ -374,12 +308,38 @@ export default {
         switch(selected_fill){
             case "vial":
               this.selected_image_path = require("../assets/vial.svg");
+              this.getComponents.container = "Vial"
+              this.getState.fill_specifications.fill_type = "Vial"
+              //When a vial fill is selected don't disable anything.
+              //Set final product state to liquid
+              this.getState.fill_specifications.selected_fp_state = ""
+              this.getState.fill_specifications.selected_fill_sterility = ""
+              this.getState.fill_specifications.selected_fp_state_disabled = false
+              this.getState.fill_specifications.selected_fill_sterility_disabled = false
               break
             case "syringe":
               this.selected_image_path = require("../assets/syringe.svg");
+              this.getComponents.container = "Syringe"
+              this.getState.fill_specifications.fill_type = "Syringe"
+              //Syringe fills are only liquid fills but can have termninal sterilization. Disable final state but not fill sterility.
+
+              //Set final product state to liquid
+              this.getState.fill_specifications.selected_fp_state = "Liquid"
+              this.getState.fill_specifications.selected_fill_sterility = ""
+              //Disable final product state selection
+              this.getState.fill_specifications.selected_fp_state_disabled = true
               break
             case "cartridge":
               this.selected_image_path = require("../assets/cartridge.svg");
+              this.getComponents.container = "Cartridge"
+              this.getState.fill_specifications.fill_type = "Cartridge"
+              //Cartridge Fills are only liquid.  Can they have terminal sterilization?  
+
+              //Set final product state to liquid
+              this.getState.fill_specifications.selected_fp_state = "Liquid"
+              this.getState.fill_specifications.selected_fill_sterility = ""
+              //Disable final product state selection
+              this.getState.fill_specifications.selected_fp_state_disabled = true
               break
         }
         this.next()
@@ -412,7 +372,15 @@ export default {
     product_page(){
         this.getAuthenticationData.client_portal_form = false;
         this.getAuthenticationData.client_portal_questionaire = false;
-      }
+      },
+    finish_questionaire(){
+        //this.getAuthenticationData.client_portal_form = true;
+        this.getAuthenticationData.client_portal_questionaire = false;
+      },
+    reset_fill_sterility(){
+        this.getState.fill_specifications.selected_fill_sterility = "";
+    }
+    
   },
 
 }

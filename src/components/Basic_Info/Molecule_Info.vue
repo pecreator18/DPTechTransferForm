@@ -3,14 +3,14 @@
         <h3>Molecule Information</h3>
         <h5>Please enter the drug molecule information</h5> 
     <v-form>
-        <v-text-field label = "Drug Name" v-model = "getMoleculeData.Drug_Name" ></v-text-field>
-        <v-select label = "Molecule Type" v-model = "getMoleculeData.Product_Type" :items = product_types></v-select>
-        <v-text-field v-if = "getMoleculeData.Product_Type == 'Other'"   label = "Other Molecule Type"   v-model = "getMoleculeData.Other_Product_Type" ></v-text-field>
-        <v-text-field label = "Disease Indication Ex. Alzheimers" v-model = "getMoleculeData.Disease_Indication"></v-text-field>
-        <v-select label = "Development Phase" v-model = "getMoleculeData.Development_Phase" :items = development_phases></v-select>
+        <v-text-field label = "Drug Name" v-model = "getMoleculeData.Drug_Name" disabled></v-text-field>
+        <v-select label = "Molecule Type" v-model = "getMoleculeData.Product_Type" :items = product_types disabled></v-select>
+        <v-text-field v-if = "getMoleculeData.Product_Type == 'Other'"   label = "Other Molecule Type"   v-model = "getMoleculeData.Other_Product_Type" disabled></v-text-field>
+        <v-text-field label = "Disease Indication Ex. Alzheimers" v-model = "getMoleculeData.Disease_Indication" disabled></v-text-field>
+        <v-select label = "Development Phase" v-model = "getMoleculeData.Development_Phase" :items = development_phases disabled></v-select>
 
-        <v-select v-if = " getMoleculeData.Development_Phase != null && getMoleculeData.Development_Phase != 'PPQ/Commercial'" label = "Clinical Trial Location" v-model = "getMoleculeData.Trial_Location" :items = clinical_trial_locations></v-select>
-        <v-text-field v-if = "getMoleculeData.Trial_Location == 'Other'" label = "Other Clinical Trial Location" v-model = "getMoleculeData.Other_Location"></v-text-field>
+        <v-select v-if = " getMoleculeData.Development_Phase != null && getMoleculeData.Development_Phase != 'PPQ/Commercial'" label = "Clinical Trial Location" v-model = "getMoleculeData.Trial_Location" :items = clinical_trial_locations disabled></v-select>
+        <v-text-field v-if = "getMoleculeData.Trial_Location == 'Other'" label = "Other Clinical Trial Location" v-model = "getMoleculeData.Other_Location" disabled></v-text-field>
         
     </v-form>  
   </div>

@@ -2,15 +2,15 @@
 <div>
 
     <h2 >Production Components</h2>
-    <v-select
+    <!--v-select
     label = "Pleasse Select Drug Product Container"
     :items = containers
     v-model = getComponents.container
     >
-    </v-select>
+    </v-select-->
     <v-container  v-if = "getComponents.container != ''">
         <v-row class="text-center font-weight-bold" > 
-            <v-col >Component</v-col>
+            <v-col>Component</v-col>
              <v-col>Size</v-col>
               <v-col>Description</v-col>
                <v-col> Manufacturer</v-col>
@@ -164,9 +164,6 @@
                 <v-col>
                     {{row.component}}
                 </v-col>
-                
-
-                
                 <v-col>
                     <v-text-field
                     v-model = row.size

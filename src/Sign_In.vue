@@ -1,6 +1,7 @@
 <template>
   <v-app id="inspire">
-    <v-content v-if="!getAuthenticationData.authenticated">
+    <Client_Portal_Form  v-if="getAuthenticationData.authenticated"/>
+    <v-content v-else>
       <v-container
         class="fill-height"
         fluid
@@ -55,25 +56,25 @@
         </v-row>
       </v-container>
     </v-content>
-    <Client_Home v-if="getAuthenticationData.authenticated && !getAuthenticationData.client_portal_form && !getAuthenticationData.client_portal_questionaire" @showProduct = "viewProduct($event)"/>
-    <Client_Portal_Form v-if="getAuthenticationData.authenticated && getAuthenticationData.client_portal_form"/>
-    <Process_Overview v-if="getAuthenticationData.authenticated && getAuthenticationData.client_portal_questionaire"/>
+    <!--<Client_Home v-if="getAuthenticationData.authenticated && !getAuthenticationData.client_portal_form && !getAuthenticationData.client_portal_questionaire" @showProduct = "viewProduct($event)"/>-->
+    
+    <!--<Process_Overview v-if="getAuthenticationData.authenticated && getAuthenticationData.client_portal_questionaire"/>-->
   </v-app>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import Client_Portal_Form from './Client_Portal_Form.vue'
-import Client_Home from './Client_Home.vue'
-import Process_Overview from './components/Process_Overview.vue'
+//import Client_Home from './Client_Home.vue'
+//import Process_Overview from './components/Process_Overview.vue'
   export default {
     props: {
       source: String,
     },
     components: {
     Client_Portal_Form,
-    Client_Home,
-    Process_Overview
+    //Client_Home,
+    //Process_Overview
   },
   computed: mapGetters(['getAuthenticationData']),
   data(){

@@ -2,8 +2,12 @@
   
   <v-app >
     <Navbar @change_form = "selectform"/>
+    
+    <v-content v-if = "getState.authentication_data.client_portal_questionaire">
+        <process_overview/>
+    </v-content>
    
-    <v-content class = "ma-4" elevation = 2>
+    <v-content v-else class = "ma-4" elevation = 2>
         <v-scale-transition>
           <home_icon v-if= "home"/>
       </v-scale-transition>
@@ -31,6 +35,10 @@
       <v-scale-transition>
         <qc_testing v-if= "qc_testing"/>
       </v-scale-transition>
+      
+      <v-scale-transition>
+        <quality v-if= "quality"/>
+      </v-scale-transition>
 
       <v-scale-transition>
         <uploads v-if= "file_uploads"/>
@@ -47,7 +55,6 @@
     -->
 
     </v-content>
-    
   </v-app>
   
 </template>
@@ -56,7 +63,7 @@
 //import Basic_Info from './components/Basic_Info/Basic_Info.vue'
 //import DP_Info from './components/DP_Forms/DP_Info.vue'
 import Navbar from  './components/Navbar.vue'
-//import process_overview from './components/Process_Overview.vue'
+import process_overview from './components/Process_Overview.vue'
 import program_info from  './components/Client_Program_Info.vue'
 import logistics from './components/Logistics.vue'
 import safety from './components/Health_and_Safety.vue'
@@ -64,6 +71,7 @@ import manufacturing from './components/Manufacturing.vue'
 import qc_testing from './components/QC_Testing.vue'
 import home_icon from './components/Home.vue'
 import uploads from './components/Uploads.vue'
+import quality from  './components/Quality.vue'
 //import sign_in from './components/Sign_In.vue'
 import { mapGetters } from 'vuex'
 
@@ -82,7 +90,8 @@ export default {
     qc_testing,
     home_icon,
     uploads,
-    //process_overview
+    process_overview,
+    quality
     //sign_in
   },
   
@@ -97,6 +106,7 @@ export default {
         qc_testing: false,
         file_uploads: false,
         home:true,
+        quality:false,
 
         //Variable to contain the currently displayed form within v-content.
         displayed: "Home",
@@ -109,7 +119,7 @@ export default {
         Peptide_Services:false,
         SmallMolecule_Services:false,
         authenticated:false,
-        items: [
+        /*items: [
         { title: 'Process Overview', icon: 'mdi-view-dashboard' },
         { title: 'Program Information', icon: 'mdi-image' },
         { title: 'Manufacturing', icon: 'mdi-help-box' },
@@ -117,7 +127,7 @@ export default {
         { title: 'Health and Safety', icon: 'mdi-help-box' },
         { title: 'Quality Control Testing', icon: 'mdi-help-box' },
         { title: 'Document Uploads', icon: 'mdi-help-box' }
-      ],
+      ],*/
   }),
   methods:{
   selectform(e) {
@@ -148,6 +158,9 @@ export default {
             case "Document Uploads":
               this.file_uploads = false;
               break
+            case "Quality/Compliance":
+              this.quality = false;
+              break
         }
       switch(e){
       //Set Conditional Rendering based on the selected service offering.
@@ -174,6 +187,9 @@ export default {
               break
             case "Document Uploads":
               this.file_uploads = true;
+              break
+            case "Quality/Compliance":
+              this.quality = true;
               break
         }
     this.displayed = e;

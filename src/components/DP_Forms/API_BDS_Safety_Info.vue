@@ -5,13 +5,53 @@
       <h5>Please provide as much infomation about the API/BDS as possible. </h5> 
   <v-row>
       <v-col>
-  <v-select 
-    multiple
-    :items = "available_reports"
-    label = "Available Reports"
-    v-model = "getAPIBDSSafety.available_reports"
-    ></v-select>
-    </v-col>
+        <v-select 
+        multiple
+        :items = "available_reports"
+        label = "Available Reports"
+        v-model = "getAPIBDSSafety.available_reports"
+        ></v-select>
+      </v-col>
+ </v-row>
+ <v-row>
+     <v-col cols = 6 v-if = "getAPIBDSSafety.available_reports.includes('Safety Data Sheets')">
+            <v-file-input 
+                                    accept="image/*" 
+                                    label="Safety Data Sheets" 
+                                    multiple
+                                    
+                                    >
+            </v-file-input>
+         </v-col>
+         <v-col cols = 6 v-if = "getAPIBDSSafety.available_reports.includes('OEL Monograph')">
+            <v-file-input 
+                                    accept="image/*" 
+                                    label="OEL Monograph" 
+                                    multiple
+                                    
+                                    >
+            </v-file-input>
+         </v-col>
+         <v-col cols = 6 v-if = "getAPIBDSSafety.available_reports.includes('Occupational Health Categorization')">
+            <v-file-input 
+                                    accept="image/*" 
+                                    label="Occupational Health Categorization" 
+                                    multiple
+                                    
+                                    >
+            </v-file-input>
+         </v-col>
+         <v-col cols = 6 v-if = "getAPIBDSSafety.available_reports.includes('Investigators Brochure')">
+            <v-file-input 
+                                    accept="image/*" 
+                                    label="Investigator's Brochure" 
+                                    multiple
+                                    
+                                    >
+            </v-file-input>
+      </v-col>
+ </v-row>
+ <v-row>
     <v-col>
         <p><i>If an OEL Monograph or Occupational Health Categorization is not provided at tech transfer, Aji Bio-Pharma will require a copy of the Investigator's Brochure so that an Occupational Health Categorization can be written. </i></p>
     </v-col>
@@ -218,7 +258,7 @@ export default {
     data() {
     return{
     //select field items
-     available_reports: ["Safety Data Sheets","OEL Monograph","Occupational Health Categorization","Investigator's Brochure"],
+     available_reports: ["Safety Data Sheets","OEL Monograph","Occupational Health Categorization","Investigators Brochure"],
      safety_characteristics: ["Radioactive", "DEA Controlled", "Penicillin", "Beta-Lactam", "Cephalosporin", "Spores", "Hormone"],
      oel_range:["greater than  500 \u00B5g/m³", "10 \u00B5g/m³ - 500 \u00B5g/m³", "1 \u00B5g/m³ - 10 \u00B5g/m³", "5 ng/m³ - 1 \u00B5g/m³", "less than 5 ng/m³"],
      yes_no: [ 'Yes', 'No', 'Unknown' ] ,

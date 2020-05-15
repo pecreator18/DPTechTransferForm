@@ -16,7 +16,7 @@
         <v-spacer>    </v-spacer>
         <v-btn depressed @click = "sign_out">
           <span>Sign Out</span>
-          <v-icon right>mdi-exit-to-app</v-icon>
+          <v-icon right width = "200">mdi-exit-to-app</v-icon>
       </v-btn>
     </v-app-bar>
     <br>
